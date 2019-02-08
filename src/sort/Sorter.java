@@ -37,7 +37,7 @@ public interface Sorter<E extends Comparable> {
      *
      * @param collection la colección a ordenar
      */
-    void forwardSortOnPlace(Collection<E> collection);
+    void forwardSortInPlace(Collection<E> collection);
 
     /**
      * Este método ordena una {@link Collection} de forma descendente de acuerdo a las reglas y mecanismos definidos en
@@ -45,5 +45,15 @@ public interface Sorter<E extends Comparable> {
      *
      * @param collection la colección a ordenar
      */
-    void backwardSortOnPlace(Collection<E> collection);
+    void backwardSortInPlace(Collection<E> collection);
+
+    /**
+     * Este método contiene código para copiar una colección a partir de la interfaz {@link Collection<E>} utilizando
+     * reflexión. Genera una nueva colección a partir de la colección original. Es equivalente a crear una nueva
+     * colección a partir del constructor que recibe una colección.
+     *
+     * @param collection la colección a copiar
+     * @return la copia de la colección
+     */
+    Collection<E> cloneCollection(Collection<E> collection);
 }
