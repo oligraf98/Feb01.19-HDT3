@@ -45,10 +45,10 @@ public class TestSorters {
             Collection<Integer> collection = new ArrayList<>();
             // Agrega los números ordenados de tal forma que es imposible que un ordenamiento incompleto pase el test
             // La teoría es:
-            // 1. Hay 2 números o menos, consecutivos, que son siempre mayor (o menor) a su anterior.
-            // 1.1. La obvia implicación es que la lista no está ordenada ascendente o descendente
-            // 2. No se repiten los números
-            // 3. Entre cada dos números existe una separación de 2 o más
+            //   1. Hay 2 números o menos, consecutivos, que son siempre mayor (o menor) a su anterior.
+            //   1.1. La obvia implicación es que la lista no está ordenada ascendente o descendente
+            //   2. No se repiten los números
+            //   3. Entre cada dos números existe una separación de 2 o más
             collection.add(5);
             collection.add(9);
             collection.add(0);
@@ -102,10 +102,8 @@ public class TestSorters {
             collection.add(7);
             collection.add(1);
             collection.add(3);
-            // Agregar el 0 y el 9 como repetidos para obviar bugs respecto a sorts incompletos
             collection.add(0);
             collection.add(9);
-            // Agregar 4 números repetidos a la lista para que ni el 0 ni el 9 queden en el borde
             collection.add(1);
             collection.add(8);
             collection.add(3);
@@ -130,4 +128,85 @@ public class TestSorters {
         }
     }
 
+    @Test
+    public void TestForwardSortInPlace() {
+        for (Sorter<Integer> sorter : integerSorters) {
+            Collection<Integer> collection = new ArrayList<>();
+            // Agrega los números ordenados de tal forma que es imposible que un ordenamiento incompleto pase el test
+            collection.add(5);
+            collection.add(9);
+            collection.add(0);
+            collection.add(8);
+            collection.add(2);
+            collection.add(6);
+            collection.add(4);
+            collection.add(7);
+            collection.add(1);
+            collection.add(3);
+            collection.add(0);
+            collection.add(9);
+            collection.add(1);
+            collection.add(8);
+            collection.add(3);
+            collection.add(6);
+            // Clonar la colección para referencia
+            Collection<Integer> reference = sorter.cloneCollection(collection);
+            @SuppressWarnings("UnnecessaryLocalVariable") Collection<Integer> objectReference = collection;
+            // Realizar el sort
+            sorter.forwardSortInPlace(collection);
+            // El resultado esperado es el siguiente
+            Integer[] expected = {0, 0, 1, 1, 2, 3, 3, 4, 5, 6, 6, 7, 8, 8, 9, 9};
+            // Conventir a array para comparar
+            Integer[] produced = collection.toArray(new Integer[0]);
+            // ! El array debe estar ordenado
+            assertArrayEquals("El sort \"" + sorter.getClass().getName() + "\" produjo resultados inesperados",
+                    expected, produced);
+            // ! La colección no debe ser igual a la referencia
+            Integer[] referenceArray = reference.toArray(new Integer[0]);
+            assertThat(produced, not(equalTo(referenceArray)));
+            // ! La colección original debe ser el mismo objeto
+            assertSame(objectReference, collection);
+        }
+    }
+
+    @Test
+    public void TestBackwardSortInPlace() {
+        for (Sorter<Integer> sorter : integerSorters) {
+            Collection<Integer> collection = new ArrayList<>();
+            // Agrega los números ordenados de tal forma que es imposible que un ordenamiento incompleto pase el test
+            collection.add(5);
+            collection.add(9);
+            collection.add(0);
+            collection.add(8);
+            collection.add(2);
+            collection.add(6);
+            collection.add(4);
+            collection.add(7);
+            collection.add(1);
+            collection.add(3);
+            collection.add(0);
+            collection.add(9);
+            collection.add(1);
+            collection.add(8);
+            collection.add(3);
+            collection.add(6);
+            // Clonar la colección para referencia
+            Collection<Integer> reference = sorter.cloneCollection(collection);
+            @SuppressWarnings("UnnecessaryLocalVariable") Collection<Integer> objectReference = collection;
+            // Realizar el sort
+            sorter.backwardSortInPlace(collection);
+            // El resultado esperado es el siguiente
+            Integer[] expected = {9, 9, 8, 8, 7, 6, 6, 5, 4, 3, 3, 2, 1, 1, 0, 0};
+            // Conventir a array para comparar
+            Integer[] produced = collection.toArray(new Integer[0]);
+            // ! El array debe estar ordenado
+            assertArrayEquals("El sort \"" + sorter.getClass().getName() + "\" produjo resultados inesperados",
+                    expected, produced);
+            // ! La colección no debe ser igual a la referencia
+            Integer[] referenceArray = reference.toArray(new Integer[0]);
+            assertThat(produced, not(equalTo(referenceArray)));
+            // ! La colección original debe ser el mismo objeto
+            assertSame(objectReference, collection);
+        }
+    }
 }

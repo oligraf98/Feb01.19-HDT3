@@ -9,6 +9,7 @@ public class GnomeSort<E extends Comparable<E>> extends Sort<E> {
     @Override
     public void forwardSortInPlace(Collection<E> collection) {
         List<E> asList = new ArrayList<>(collection);
+        collection.clear();
         // Implementación adaptada a partir de
         // https://www.w3resource.com/java-exercises/sorting/java-sorting-algorithm-exercise-13.php
         int i = 1;
@@ -22,13 +23,13 @@ public class GnomeSort<E extends Comparable<E>> extends Sort<E> {
                 i = (i == 0) ? j++ : i;
             }
         }
-        collection.clear();
         collection.addAll(asList);
     }
 
     @Override
     public void backwardSortInPlace(Collection<E> collection) {
         List<E> asList = new ArrayList<>(collection);
+        collection.clear();
         // Implementación adaptada a partir de
         // https://www.w3resource.com/java-exercises/sorting/java-sorting-algorithm-exercise-13.php
         int i = 1;
@@ -42,7 +43,6 @@ public class GnomeSort<E extends Comparable<E>> extends Sort<E> {
                 i = (i == 0) ? j++ : i;
             }
         }
-        collection.clear();
         collection.addAll(asList);
     }
 }
